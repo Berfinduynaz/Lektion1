@@ -7,20 +7,27 @@
 	let password = $state('');
 
 	const btnclick = () => {
-		if (userName === 'admin' && password === 'admin') {
-			goto('/home');
+		if (userName === 'berfin' && password === 'duymaz') {
+			goto('/dashboard');
 		} else {
 			alert('Login failed');
 		}
 	};
 </script>
 
-<div>
-	<Input bind:value={userName} placeholder="Brugernavn" />
-</div>
-<div>
-	<Input bind:value={password} placeholder="Kodeord" />
-</div>
-<div>
-	<Button onclick={btnclick}>Login</Button>
+<div class="login-wrapper">
+	<div class="login-card">
+		<h1>Log ind</h1>
+		<p>Velkommen</p>
+
+		<div class="field">
+			<Input bind:value={userName} placeholder="Brugernavn" />
+		</div>
+
+		<div class="field">
+            <Input bind:value={password} placeholder="Adgangskode" type="password" />
+		</div>
+
+		<Button onclick={btnclick}>Login</Button>
+	</div>
 </div>
