@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation';
+
 	let shortnessOfBreath = $state('');
 	let cough = $state('');
 	let phlegmAmount = $state('');
@@ -11,7 +13,15 @@
 	let feedbackType = $state('');
 	let showPopup = $state(false);
 
-	const userId = 'test-user';
+	let userId = $state('');
+
+	$effect(() => {
+		userId = localStorage.getItem('userId');
+
+		if (!userId) {
+			goto('/');
+		}
+	});
 
 	function amountToNumber(amount) {
 		if (amount === 'lav') return 1;
@@ -48,11 +58,9 @@
 		}
 
 		try {
-            await fetch('/api/measurements', {
+			await fetch('/api/measurements', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					userId,
 					shortnessOfBreath: sob,
@@ -220,6 +228,10 @@
 		<div class="action-row">
 			<button class="save-btn" on:click={saveData}>Gem værdier</button>
 
+			<button class="history-btn" on:click={() => goto('/history')}>
+				Se historik
+			</button>
+
 			{#if feedbackMessage}
 				<button class="feedback-trigger {feedbackType}" on:click={openFeedback}>
 					Se feedback
@@ -310,6 +322,22 @@
 
 	.save-btn:hover {
 		background: #15803d;
+	}
+
+	.history-btn {
+		width: 180px;
+		padding: 14px;
+		border: none;
+		border-radius: 12px;
+		background: #174633;
+		color: white;
+		font-size: 16px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.history-btn:hover {
+		background: #0f2f22;
 	}
 
 	.feedback-trigger {
@@ -407,23 +435,6 @@
 		padding: 0;
 	}
 
-	@media (max-width: 700px) {
-		.dashboard-container {
-			margin-left: 20px;
-			margin-right: 20px;
-		}
-
-		.action-row {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		.save-btn,
-		.feedback-trigger {
-			width: 100%;
-		}
-	}
-
 	.logout-btn {
 		position: fixed;
 		right: 20px;
@@ -442,5 +453,23 @@
 
 	.logout-btn:hover {
 		background: #b91c1c;
+	}
+
+	@media (max-width: 700px) {
+		.dashboard-container {
+			margin-left: 20px;
+			margin-right: 20px;
+		}
+
+		.action-row {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.save-btn,
+		.history-btn,
+		.feedback-trigger {
+			width: 100%;
+		}
 	}
 </style>

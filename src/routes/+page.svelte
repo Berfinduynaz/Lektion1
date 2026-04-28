@@ -6,11 +6,23 @@
 	let userName = $state('');
 	let password = $state('');
 
-	const btnclick = () => {
-		if (userName === 'berfin' && password === 'duymaz') {
+	const btnclick = async () => {
+		const response = await fetch('/api/login', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				username: userName,
+				password: password
+			})
+		});
+
+		const result = await response.json();
+
+		if (result.success) {
+			localStorage.setItem('userId', result.userId);
 			goto('/dashboard');
 		} else {
-			alert('Login failed');
+			alert(result.message);
 		}
 	};
 </script>
@@ -25,9 +37,18 @@
 		</div>
 
 		<div class="field">
-            <Input bind:value={password} placeholder="Adgangskode" type="password" />
+			<Input bind:value={password} placeholder="Adgangskode" type="password" />
 		</div>
 
 		<Button onclick={btnclick}>Login</Button>
+
+		<!-- 👇 KNAP UNDER LOGIN -->
+		<div style="margin-top: 15px;">
+			<a href="/admin">
+				<button style="background-color: #1f4d3a; color: white;">
+					Opret bruger
+				</button>
+			</a>
+		</div>
 	</div>
 </div>

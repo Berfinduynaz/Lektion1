@@ -8,7 +8,7 @@ export const users = pgTable("users", {
 
 export const measurements = pgTable("measurements", {
   id: serial("id").primaryKey(),
-  userId: text("user_id").notNull(),
+  userId: integer("user_id").notNull().references(() => users.id),
   shortnessOfBreath: integer("shortness_of_breath"),
   cough: integer("cough"),
   phlegmAmount: text("phlegm_amount"),
@@ -17,4 +17,14 @@ export const measurements = pgTable("measurements", {
   pulse: integer("pulse"),
   oxygen: integer("oxygen"),
   createdAt: timestamp("created_at").defaultNow().notNull()
+});
+export const diaryPost = pgTable("diary_post", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at"),
+  userId: integer("user_id") 
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" })
 });
