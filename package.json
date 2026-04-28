@@ -4,14 +4,14 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-	"dev": "vite dev",
-	"build": "vite build",
-	"preview": "vite preview",
-	"prepare": "svelte-kit sync || echo ''",
-	"lint": "prettier --check . && eslint .",
-	"format": "prettier --write .",
-	"db:push": "drizzle-kit push"
-},
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"db:push": "drizzle-kit push"
+	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.4",
 		"@eslint/js": "^10.0.1",
