@@ -38,7 +38,7 @@
 	async function saveData() {
 		const sob = Number(shortnessOfBreath);
 		const coughValue = Number(cough);
-		const temp = Math.round(Number(temperature));
+		const temp = Number(temperature);
 		const pulseValue = Number(pulse);
 		const oxygenValue = Number(oxygen);
 
@@ -110,11 +110,21 @@
 
 			const sobWorsened = sob >= avgSob + 1;
 			const coughWorsened = coughValue >= avgCough + 1;
-			const tempWorsened = temp >= avgTemp + 0.5;
-			const pulseWorsened = pulseValue >= avgPulse + 10;
-			const oxygenDropped = oxygenValue <= avgOxygen - 2;
+			const tempWorsened =
+			temp < 36.5 ||
+			temp > 37.5 ||
+			temp >= avgTemp + 0.5 ||
+			temp <= avgTemp - 0.5;
+			const pulseWorsened =
+			pulseValue >= avgPulse + 10 ||
+			pulseValue <= avgPulse - 10 ||
+			pulseValue < 60 ||
+			pulseValue > 100;
+			const oxygenDropped =
+			oxygenValue < 95 ||
+			oxygenValue > 100;
 			const phlegmAmountWorsened = amountToNumber(phlegmAmount) > avgPhlegmAmount;
-
+			
 			const hadClearBefore = previousMeasurements.some((m) => m.phlegmColor === 'klar');
 			const hadNotGreenBefore = previousMeasurements.some((m) => m.phlegmColor !== 'grøn');
 
